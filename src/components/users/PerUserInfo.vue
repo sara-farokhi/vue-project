@@ -1,0 +1,56 @@
+<template>
+  <div class="container">
+    <div class="card my-5 p-5">
+      <div v-if="loading" class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div v-else>
+        <p class="h2 mb-5">User Information</p>
+        <p class="h6">Name : {{ userInfo.name }}</p>
+        <p class="h6">User name : {{ userInfo.username }}</p>
+        <p class="h6">Email : {{ userInfo.email }}</p>
+        <p class="h6">Address :</p>
+        <ul class="h6">
+          <li>city : {{ userInfo.address.city }}</li>
+          <li>street : {{ userInfo.address.street }}</li>
+          <li>zipcode : {{ userInfo.address.zipcode }}</li>
+        </ul>
+        <p class="h6">Phone : {{ userInfo.phone }}</p>
+      </div>
+    </div>
+    <button class="btn btn-dark" @click="goback">Back to users</button>
+  </div>
+</template>
+
+<script>
+import { useRoute, useRouter } from "vue-router";
+import { ref } from "vue";
+import axios from "axios";
+export default {
+  setup() {
+    const userInfo = ref({});
+    const loading = ref(true);
+
+    const route = useRoute();
+    const router = useRouter();
+    const id = route.params.id;
+    const getUserIno = async () => {
+      const res = await axios.get(`http://localhost:3004/users/${id}`);
+      userInfo.value = res.data;
+      loading.value = false;
+    };
+    getUserIno();
+    const goback = () => {
+      router.push({ name: "users" });
+    };
+
+    return {
+      userInfo,
+      goback,
+      loading,
+    };
+  },
+};
+</script>
+
+<style></style>
