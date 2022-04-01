@@ -1,20 +1,27 @@
 <template>
-  <div class="col-md-3 my-2">
-    <div class="card vh-50" style="width: 18rem">
-      <div class="card-header d-flex justify-content-between">
-        <router-link :to="{ name: 'post', params: { id: post.id } }"
-          >Post Info</router-link
-        >
+  <div class="col-md-3 mb-4">
+    <div class="card h-100" style="width: 18rem">
+      <div class="card-header">
+        <router-link :to="{ name: 'editPost', params: { id: post.id } }">
+          <i
+            class="bi bi-pencil-square text-secondary mx-2 h5"
+            :style="{ cursor: 'pointer' }"
+          ></i>
+        </router-link>
         <i
           :style="{ cursor: 'pointer' }"
-          class="bi bi-x-square-fill text-danger"
+          class="bi bi-x-square-fill text-danger h5"
           @click="deletePost($event)"
         ></i>
       </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{ post.title }}</li>
-        <li class="list-group-item">{{ post.body }}</li>
-      </ul>
+      <div class="container">
+        <p class="h5 py-2">{{ post.title }}</p>
+        <hr />
+        <p>{{ post.body }} ...</p>
+        <router-link :to="{ name: 'post', params: { id: post.id } }"
+          ><p>Read More</p></router-link
+        >
+      </div>
     </div>
   </div>
 </template>

@@ -5,11 +5,6 @@
         <router-link :to="{ name: 'user', params: { id: user.id } }">
           User Info
         </router-link>
-        <i
-          :style="{ cursor: 'pointer' }"
-          class="bi bi-x-square-fill text-danger"
-          @click="deletePost"
-        ></i>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Name: {{ user.name }}</li>

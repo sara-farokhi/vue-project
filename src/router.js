@@ -6,6 +6,7 @@ import UsersPage from "./components/pages/UsersPage";
 import PerUserInfo from "./components/users/PerUserInfo";
 import PerPostInfo from "./components/posts/PerPostInfo";
 import CreatePost from "./components/posts/CreatePost";
+import EditPost from "./components/posts/EditPost";
 
 const routes = [
   // HOME
@@ -27,6 +28,12 @@ const routes = [
     path: "/posts/creatPost",
     name: "createPost",
     component: CreatePost,
+  },
+
+  {
+    path: "/posts/editPost/:id",
+    name: "editPost",
+    component: EditPost,
   },
 
   {

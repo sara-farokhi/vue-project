@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="container">
-      <button class="bg-dark text-white mt-5 rounded">
+      <button class="bg-dark text-white my-3 rounded">
         <router-link :to="{ name: 'createPost' }">Create Post </router-link>
       </button>
-      <p class="my-5 h6">post page</p>
+
       <div v-if="loading" class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
