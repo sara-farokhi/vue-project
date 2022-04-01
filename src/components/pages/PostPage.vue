@@ -1,12 +1,20 @@
 <template>
   <div>
     <div class="container">
+      <button class="bg-dark text-white mt-5 rounded">
+        <router-link :to="{ name: 'createPost' }">Create Post </router-link>
+      </button>
       <p class="my-5 h6">post page</p>
       <div v-if="loading" class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <div v-else class="row">
-        <PostView v-for="post in posts" :key="post.id" :post="post" />
+        <PostView
+          v-for="post in posts"
+          :key="post.id"
+          :post="post"
+          @updatePosts="updatePostLis(evt)"
+        />
       </div>
     </div>
   </div>
@@ -23,16 +31,23 @@ export default {
   setup() {
     const posts = ref([]);
     const loading = ref(true);
+
     const getPosts = async () => {
       const { data } = await axios.get(`http://localhost:3004/posts`);
-      console.log(data);
       posts.value = data;
       loading.value = false;
     };
+
     getPosts();
+
     return { posts, loading };
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+a {
+  color: white;
+  text-decoration: none;
+}
+</style>

@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import { ref } from "vue";
 import UserPage from "../users/UserPage.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -28,7 +28,6 @@ export default {
     const getUsers = async () => {
       const res = await axios.get(`http://localhost:3004/users`);
       const data = res.data;
-      // console.log(data);
       users.value = data;
       loading.value = false;
     };
