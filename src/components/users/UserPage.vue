@@ -20,6 +20,13 @@ export default {
   props: {
     user: Object,
   },
+
+  // setup() {
+
+  //   return {
+
+  //   };
+  // },
 };
 </script>
 

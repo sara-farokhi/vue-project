@@ -26,8 +26,13 @@
 import { useRoute, useRouter } from "vue-router";
 import { ref } from "vue";
 import axios from "axios";
+import { computed } from "vue";
+import { useStore } from "vuex";
+
 export default {
   setup() {
+    const store = useStore();
+    const count = computed(() => store.state.users.count);
     const userInfo = ref({});
     const loading = ref(true);
 
@@ -48,6 +53,8 @@ export default {
       userInfo,
       goback,
       loading,
+      count,
+      store,
     };
   },
 };

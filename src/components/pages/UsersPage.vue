@@ -15,25 +15,26 @@
 <script>
 import { ref } from "vue";
 import UserPage from "../users/UserPage.vue";
-import axios from "axios";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   components: {
     UserPage,
   },
   setup() {
-    const users = ref([]);
-    const loading = ref(true);
-
-    const getUsers = async () => {
-      const res = await axios.get(`http://localhost:3004/users`);
-      const data = res.data;
-      users.value = data;
+    const store = useStore();
+    const count = computed(() => store.state.usersModule.count);
+    const users = computed(() => store.getters["usersModule/setUsers"]);
+    const loading = ref(false);
+    async function getUsers() {
+      loading.value = true;
+      await store.dispatch("usersModule/fetchUsers");
       loading.value = false;
-    };
+    }
     getUsers();
 
-    return { users, loading };
+    return { users, loading, store, count };
   },
 };
 </script>

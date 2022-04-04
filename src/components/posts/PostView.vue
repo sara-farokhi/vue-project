@@ -22,6 +22,8 @@
           ><p>Read More</p></router-link
         >
       </div>
+
+      {{ count }}
     </div>
   </div>
 </template>
