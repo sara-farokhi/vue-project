@@ -23,15 +23,7 @@ const users = {
     async fetchUsers({ commit }) {
       const res = await axios.get(`http://localhost:3004/users`);
       const data = res.data;
-
       commit("getUsers", data);
-
-      // const getUsers = async () => {
-      //   const res = await axios.get(`http://localhost:3004/users`);
-      //   const data = res.data;
-      //   users.value = data;
-      //   loading.value = false;
-      // };
     },
   },
 };

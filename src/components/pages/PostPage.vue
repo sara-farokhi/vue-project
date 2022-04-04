@@ -22,25 +22,26 @@
 
 <script>
 import PostView from "../posts/PostView.vue";
-import axios from "axios";
-import { ref } from "vue";
+import { useStore } from "vuex";
+import { ref, computed } from "vue";
 export default {
   components: {
     PostView,
   },
   setup() {
-    const posts = ref([]);
+    const store = useStore();
     const loading = ref(true);
+    const posts = computed(() => store.getters["postsModule/setPosts"]);
 
-    const getPosts = async () => {
-      const { data } = await axios.get(`http://localhost:3004/posts`);
-      posts.value = data;
+    async function getPosts() {
+      loading.value = true;
+      await store.dispatch("postsModule/fetchPosts");
       loading.value = false;
-    };
+    }
 
     getPosts();
 
-    return { posts, loading };
+    return { loading, store, posts };
   },
 };
 </script>
