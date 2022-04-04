@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <button class="bg-dark text-white my-3 rounded">
-        <router-link :to="{ name: 'createPost' }">Create Post </router-link>
+        <router-link :to="{ name: 'createPost' }">Create Post</router-link>
       </button>
 
       <div v-if="loading" class="spinner-border text-primary" role="status">
@@ -32,7 +32,6 @@ export default {
     const store = useStore();
     const loading = ref(true);
     const posts = computed(() => store.getters["postsModule/setPosts"]);
-
     async function getPosts() {
       loading.value = true;
       await store.dispatch("postsModule/fetchPosts");

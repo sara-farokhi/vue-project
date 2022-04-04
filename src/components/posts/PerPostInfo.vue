@@ -5,30 +5,34 @@
         <span class="visually-hidden">Loading...</span>
       </div>
       <div v-else>
-        <p class="h2 mb-5">{{ postinfo.title }}</p>
-        <p class="h6">{{ postinfo.body }}</p>
+        <p class="h2 mb-5">{{ postInfo.title }}</p>
+        <p class="h6">{{ postInfo.body }}</p>
       </div>
     </div>
     <button class="btn btn-dark" @click="goBack">Back to posts</button>
   </div>
+
+  {{ postInfo }}
 </template>
 
 <script>
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
 import { ref } from "vue";
+import { useStore } from "vuex";
 
 export default {
   setup() {
     const router = useRouter();
     const route = useRoute();
-    const postinfo = ref({});
+    const store = useStore();
+
     const loading = ref(true);
+    const id = route.params.id;
+
+    const postInfo = store.getters["postsModule/setSinglePost"];
+
     const getPostInfo = async () => {
-      const { data } = await axios.get(
-        `http://localhost:3004/posts/${route.params.id}`
-      );
-      postinfo.value = data;
+      (loading.value = true), store.dispatch("postsModule/fetchSinglePost", id);
       loading.value = false;
     };
     getPostInfo();
@@ -36,7 +40,7 @@ export default {
       router.push({ name: "posts" });
     };
     return {
-      postinfo,
+      postInfo,
       goBack,
       loading,
     };

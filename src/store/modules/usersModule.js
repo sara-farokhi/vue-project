@@ -5,7 +5,6 @@ const users = {
 
   state: {
     users: [],
-    count: 1,
   },
 
   getters: {
