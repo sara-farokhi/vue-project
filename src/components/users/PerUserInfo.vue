@@ -10,22 +10,22 @@
         <p class="h6">User name : {{ userInfo.username }}</p>
         <p class="h6">Email : {{ userInfo.email }}</p>
         <p class="h6">Address :</p>
-        <ul class="h6">
+        <!-- <ul class="h6">
           <li>city : {{ userInfo.address.city }}</li>
           <li>street : {{ userInfo.address.street }}</li>
           <li>zipcode : {{ userInfo.address.zipcode }}</li>
-        </ul>
+        </ul> -->
         <p class="h6">Phone : {{ userInfo.phone }}</p>
       </div>
     </div>
-    <button class="btn btn-dark" @click="goback">Back to users</button>
+    <button class="btn btn-dark" @click="goBack">Back to users</button>
   </div>
 </template>
 
 <script>
 import { useRoute, useRouter } from "vue-router";
 import { ref } from "vue";
-import axios from "axios";
+// import axios from "axios";
 import { computed } from "vue";
 import { useStore } from "vuex";
 
@@ -33,28 +33,26 @@ export default {
   setup() {
     const store = useStore();
     const count = computed(() => store.state.users.count);
-    const userInfo = ref({});
     const loading = ref(true);
-
     const route = useRoute();
     const router = useRouter();
     const id = route.params.id;
-    const getUserIno = async () => {
-      const res = await axios.get(`http://localhost:3004/users/${id}`);
-      userInfo.value = res.data;
+    const getUserInfo = async () => {
+      store.dispatch("usersModule/fetchSingleUser", id);
       loading.value = false;
     };
-    getUserIno();
-    const goback = () => {
+    const userInfo = computed(() => store.getters["usersModule/setSingleUser"]);
+    getUserInfo();
+    const goBack = () => {
       router.push({ name: "users" });
     };
 
     return {
-      userInfo,
-      goback,
+      goBack,
       loading,
       count,
       store,
+      userInfo,
     };
   },
 };

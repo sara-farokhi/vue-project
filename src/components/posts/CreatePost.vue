@@ -50,11 +50,12 @@
 
 <script>
 import { reactive } from "vue";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
+    const store = useStore();
     const formData = reactive({
       title: "",
       titleErr: false,
@@ -64,18 +65,13 @@ export default {
       invalidContent: true,
       loading: false,
     });
+    const router = useRouter();
 
-    const createPost = async (data) => {
-      formData.loading = true;
+    const createPost = async (newPostData) => {
       try {
-        await axios.post(`http://localhost:3004/posts`, data);
-        formData.loading = false;
-        Swal.fire({
-          title: "Thanks!",
-          text: "submission is done",
-          icon: "success",
-          confirmButtonText: "Cool",
-        });
+        await store.dispatch("postsModule/createSinglePost", newPostData);
+        router.push({ name: "posts" });
+        // formData.loading = false;
       } catch (error) {
         console.log(error);
       }
@@ -101,12 +97,12 @@ export default {
         formData.content !== "" &&
         !formData.invalidContent
       ) {
-        const data = {
+        const newPostData = {
           title: formData.title,
           body: formData.content,
         };
 
-        createPost(data);
+        createPost(newPostData);
       }
 
       formData.title = "";

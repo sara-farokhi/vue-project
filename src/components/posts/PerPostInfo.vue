@@ -11,38 +11,30 @@
     </div>
     <button class="btn btn-dark" @click="goBack">Back to posts</button>
   </div>
-
-  {{ postInfo }}
 </template>
 
 <script>
-import { useRoute, useRouter } from "vue-router";
-import { ref } from "vue";
+import {
+  // useRoute,
+  useRouter,
+} from "vue-router";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
   setup() {
     const router = useRouter();
-    const route = useRoute();
     const store = useStore();
 
-    const loading = ref(true);
-    const id = route.params.id;
+    const postInfo = computed(() => store.getters["postsModule/setSinglePost"]);
 
-    const postInfo = store.getters["postsModule/setSinglePost"];
-
-    const getPostInfo = async () => {
-      (loading.value = true), store.dispatch("postsModule/fetchSinglePost", id);
-      loading.value = false;
-    };
-    getPostInfo();
     const goBack = () => {
       router.push({ name: "posts" });
     };
+
     return {
       postInfo,
       goBack,
-      loading,
     };
   },
 };

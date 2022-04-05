@@ -19,7 +19,7 @@
         <hr />
         <p>{{ post.body }} ...</p>
         <router-link :to="{ name: 'post', params: { id: post.id } }"
-          ><p>Read More</p></router-link
+          ><p @click="getPostInfo(post.id)">Read More</p></router-link
         >
       </div>
     </div>
@@ -27,25 +27,34 @@
 </template>
 
 <script>
-import axios from "axios";
-import { toRefs } from "vue";
+import { toRefs, ref } from "vue";
+import { useStore } from "vuex";
 
 export default {
   props: {
     post: Object,
   },
+
   setup(props) {
     const { post } = toRefs(props);
     const id = post.value.id;
+    const store = useStore();
+    const loading = ref(true);
+
+    const getPostInfo = (Id) => {
+      store.dispatch("postsModule/fetchSinglePost", Id);
+      loading.value = false;
+    };
+    // getPostInfo();
+
     const deletePost = async (e) => {
       // console.log(e.target.parentElement.parentElement);
-
-      await axios.delete(`http://localhost:3004/posts/${id}`);
+      store.dispatch("postsModule/deleteSinglePost", id);
       e.target.parentElement.parentElement.parentElement.style.display = "none";
       e.target.parentElement.parentElement.parentElement.style.visibilty =
         "hidden";
     };
-    return { deletePost };
+    return { deletePost, getPostInfo };
   },
 };
 </script>

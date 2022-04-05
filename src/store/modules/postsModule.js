@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const postsModule = {
   namespaced: true,
@@ -37,6 +38,37 @@ const postsModule = {
     async fetchSinglePost({ commit }, id) {
       const res = await axios.get(`http://localhost:3004/posts/${id}`);
       commit("getSingle", res.data);
+    },
+
+    //  delete single post
+
+    async deleteSinglePost({ commit }, id) {
+      const res = await axios.delete(`http://localhost:3004/posts/${id}`);
+      commit("updateAfterDelete", res.data);
+    },
+
+    // create post
+
+    async createSinglePost(context, newPostData) {
+      await axios.post(`http://localhost:3004/posts`, newPostData);
+      Swal.fire({
+        title: "Thanks!",
+        text: "submission is done",
+        icon: "success",
+        confirmButtonText: "Cool",
+      });
+    },
+
+    // edit post
+
+    async editSinglePost(context, newPostData) {
+      await axios.post(`http://localhost:3004/posts`, newPostData);
+      Swal.fire({
+        title: "Thanks!",
+        text: "submission is done",
+        icon: "success",
+        confirmButtonText: "Cool",
+      });
     },
   },
 };
