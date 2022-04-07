@@ -71,7 +71,6 @@ export default {
       try {
         await store.dispatch("postsModule/createSinglePost", newPostData);
         router.push({ name: "posts" });
-        // formData.loading = false;
       } catch (error) {
         console.log(error);
       }

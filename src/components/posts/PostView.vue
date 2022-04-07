@@ -48,7 +48,6 @@ export default {
     // getPostInfo();
 
     const deletePost = async (e) => {
-      // console.log(e.target.parentElement.parentElement);
       store.dispatch("postsModule/deleteSinglePost", id);
       e.target.parentElement.parentElement.parentElement.style.display = "none";
       e.target.parentElement.parentElement.parentElement.style.visibilty =

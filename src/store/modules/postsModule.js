@@ -61,8 +61,10 @@ const postsModule = {
 
     // edit post
 
-    async editSinglePost(context, newPostData) {
-      await axios.post(`http://localhost:3004/posts`, newPostData);
+    async editSinglePost(context, { newPostData, id }) {
+      console.log(id);
+      console.log(newPostData);
+      await axios.put(`http://localhost:3004/posts/${id}`, newPostData);
       Swal.fire({
         title: "Thanks!",
         text: "submission is done",

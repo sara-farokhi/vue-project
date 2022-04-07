@@ -53,7 +53,8 @@
 
 <script>
 import { reactive } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -69,26 +70,30 @@ export default {
       loading: false,
     });
     const route = useRoute();
+    const router = useRouter();
+
+    const store = useStore();
+    const id = route.params.id;
 
     const getPostInfo = async () => {
       formData.loading = true;
-      const { data } = await axios.get(
-        `http://localhost:3004/posts/${route.params.id}`
-      );
+      const { data } = await axios.get(`http://localhost:3004/posts/${id}`);
       formData.title = data.title;
       formData.content = data.body;
       formData.loading = false;
     };
     getPostInfo();
 
-    const editPost = async () => {
+    const editPost = async (data, id) => {
       formData.loading = true;
+      const newPostData = {
+        title: formData.title,
+        body: formData.content,
+      };
 
       try {
-        await axios.put(`http://localhost:3004/posts/${route.params.id}`, {
-          title: formData.title,
-          body: formData.content,
-        });
+        await store.dispatch("postsModule/editSinglePost", { newPostData, id });
+
         formData.loading = false;
         Swal.fire({
           title: "Thanks!",
@@ -96,12 +101,14 @@ export default {
           icon: "success",
           confirmButtonText: "Cool",
         });
+        router.push({ name: "posts" });
       } catch (error) {
         console.log(error);
       }
     };
 
     const validation = () => {
+      const id = route.params.id;
       if (formData.title === "" && formData.invalidTitle) {
         formData.titleErr = true;
       } else {
@@ -125,15 +132,14 @@ export default {
           title: formData.title,
           body: formData.content,
         };
-
-        editPost(data);
+        editPost(data, id);
       }
 
       formData.title = "";
       formData.content = "";
     };
 
-    return { formData, validation, editPost, getPostInfo };
+    return { formData, validation, getPostInfo };
   },
 };
 </script>
