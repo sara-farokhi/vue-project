@@ -4,7 +4,7 @@
       Create Post
     </h3>
     <div v-if="formData.loading">
-      <div class="spinner-border text-primary" role="status"></div>
+      <LoaderComp />
     </div>
     <form v-else @submit.prevent="validation">
       <div class="form col-md-7">
@@ -52,8 +52,12 @@
 import { reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import LoaderComp from "../ui/LoaderComp.vue";
 
 export default {
+  components: {
+    LoaderComp,
+  },
   setup() {
     const store = useStore();
     const formData = reactive({

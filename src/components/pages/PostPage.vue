@@ -5,9 +5,7 @@
         <router-link :to="{ name: 'createPost' }">Create Post</router-link>
       </button>
 
-      <div v-if="loading" class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+      <LoaderComp v-if="loading" />
       <div v-else class="row">
         <PostView
           v-for="post in posts"
@@ -24,8 +22,11 @@
 import PostView from "../posts/PostView.vue";
 import { useStore } from "vuex";
 import { ref, computed } from "vue";
+import LoaderComp from "../ui/LoaderComp.vue";
+
 export default {
   components: {
+    LoaderComp,
     PostView,
   },
   setup() {

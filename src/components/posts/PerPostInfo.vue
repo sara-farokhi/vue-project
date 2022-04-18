@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <div class="card my-5 p-5">
-      <div v-if="loading" class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
+      <LoaderComp v-if="loading" />
       <div v-else>
         <p class="h2 mb-5">{{ postInfo.title }}</p>
         <p class="h6">{{ postInfo.body }}</p>
@@ -20,8 +18,12 @@ import {
 } from "vue-router";
 import { computed } from "vue";
 import { useStore } from "vuex";
+import LoaderComp from "../ui/LoaderComp.vue";
 
 export default {
+  components: {
+    LoaderComp,
+  },
   setup() {
     const router = useRouter();
     const store = useStore();

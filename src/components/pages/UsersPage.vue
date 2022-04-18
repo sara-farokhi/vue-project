@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div class="container">
+    <LoaderComp v-if="loading" />
+    <div v-else class="container">
       <h2 class="my-5 h6">users</h2>
-      <div v-if="loading" class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <div v-else class="row">
+      <div class="row">
         <UserPage v-for="user in users" :key="user.id" :user="user" />
       </div>
     </div>
@@ -17,10 +15,12 @@ import { ref } from "vue";
 import UserPage from "../users/UserPage.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
+import LoaderComp from "../ui/LoaderComp.vue";
 
 export default {
   components: {
     UserPage,
+    LoaderComp,
   },
   setup() {
     const store = useStore();
